@@ -55,17 +55,18 @@ def citaj_pouzite_meny(db):
         vystup = cursor.fetchall()
     except sqlite3.Error as e:
         print("An error occurred:", e.args[0])
-    print(vystup)
+    # print(vystup)
     return vystup
+
 
 def citaj_evidencia(db):
     cursor = db.cursor()
     vystup = ""
     try:
-        sql = "SELECT rowid, * FROM evidencia"
+        sql = "select smer, kolko, za_kolko, uid, mena.skratka, cas_zmeny, poznamka from evidencia inner join mena on evidencia.mena_id = mena.rowid"
         cursor.execute(sql)
         vystup = cursor.fetchall()
     except sqlite3.Error as e:
         print("An error occurred:", e.args[0])
-    print(vystup)
+    # print(vystup)
     return vystup

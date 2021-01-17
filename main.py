@@ -30,10 +30,10 @@ templates = Jinja2Templates(directory="./templates")
 @app.get("/")
 async def root(request: Request):
     """
-    Ukáže merania
+    Ukáže zoznam zaevidovaných kryptomien
     """
     krypto = fun.citaj_evidencia(db)
-    debug(krypto)
+    # debug(krypto)
     localtime = time.asctime(time.localtime(time.time()))
     # debug(meranie)
     print("/; Čas:", localtime)
