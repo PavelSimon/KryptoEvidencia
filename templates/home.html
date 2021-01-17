@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>Dashboard refresh {{time}}</h2>
+<div class="table-responsive">
+  <table class="table table-striped table-hover table-sm">
+    <thead>
+      <tr>
+        <th scope="col">Dátum</a></th>
+        <th scope="col">Mena</a></th>
+        <th scope="col">Nákup/Predaj</a></th>
+        <th scope="col">Krypto</a></th>
+        <th scope="col">Fiat</a></th>
+        <th scope="col">Kurz</a></th>
+        <th scope="col">Poznámka</a></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for hodnoty in meranie %}
+      <tr>
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

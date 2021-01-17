@@ -1,0 +1,46 @@
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xml:lang="sk-SK"
+  lang="sk-SK"
+  dir="ltr"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', path='/images/pssro_logo.ico') }}"
+    />
+    <title>Evidencia Krypto v.007</title>
+    <meta http-equiv="refresh" content="300" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    {% include "navbar.html" %} {% block content %} {% endblock %}
+    <hr />
+    <span class="text-center">
+      <h5>
+        <a
+          href="https://www.pavel-simon.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><img src="{{ url_for('static', path='/images/logo.png') }}" alt="" />
+          Pavel ŠIMON s.r.o.</a
+        >
+      </h5>
+    </span>
+  </body>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+    crossorigin="anonymous"
+  ></script>
+</html>
