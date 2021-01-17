@@ -38,9 +38,34 @@ def citanie_z_db(db):
     cursor = db.cursor()
     vystup = ""
     try:
+        sql = "SELECT rowid, * FROM mena"
+        cursor.execute(sql)
+        vystup = cursor.fetchall()
+    except sqlite3.Error as e:
+        print("An error occurred:", e.args[0])
+    return vystup
+
+
+def citaj_pouzite_meny(db):
+    cursor = db.cursor()
+    vystup = ""
+    try:
+        sql = "SELECT rowid, * FROM mena"
+        cursor.execute(sql)
+        vystup = cursor.fetchall()
+    except sqlite3.Error as e:
+        print("An error occurred:", e.args[0])
+    print(vystup)
+    return vystup
+
+def citaj_evidencia(db):
+    cursor = db.cursor()
+    vystup = ""
+    try:
         sql = "SELECT rowid, * FROM evidencia"
         cursor.execute(sql)
         vystup = cursor.fetchall()
     except sqlite3.Error as e:
         print("An error occurred:", e.args[0])
+    print(vystup)
     return vystup

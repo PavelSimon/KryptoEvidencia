@@ -19,67 +19,67 @@
     </thead>
     <tbody>
       <tr>
-        <form class="row gy-2 gx-3 align-items-center">
+        <form action="/zaznam" class="row gy-2 gx-3 align-items-center">
           <td>
-          <div class="col-auto">
-            <label class="visually-hidden" for="autoSizingInput">Dátum</label>
-            <input type="datetime-local" id="datetime-local">
-          </div>
-        </td>
-        <td>
-          <div class="col-auto">
-            <label class="visually-hidden" for="Mena">Mena</label>
-            <select class="form-select" id="Mena">
-              <option selected>Choose...</option>
-              <option value="1">BTC</option>
-              <option value="2">XMR</option>
-              <option value="3">LTC</option>
-            </select>
-          </div>
-        </td>
-        <td>
-          <div class="col-auto">
-            <label class="visually-hidden" for="NakupPredaj">Nákup/Preda</label>
-            <select class="form-select" id="NakupPredaj">
-              <option selected>Choose...</option>
-              <option value="1">Nákup</option>
-              <option value="2">Predaj</option>
-            </select>
-          </div>
-        </td>
-        <td>
-          <div class="col-auto">
-            <div class="form-check">
-              <input type="text" id="KryptoKolko" placeholder="0,00">            
+            <div class="col-auto">
+              <label class="visually-hidden" for="autoSizingInput">Dátum</label>
+              <input type="datetime-local" id="datetime-local">
             </div>
-          </div>
-        </td>
-        <td>
-          <div class="col-auto">
-            <div class="form-check">
-              <input type="text" id="FiatKolko" placeholder="0,00">            
+          </td>
+          <td>
+            <div class="col-auto">
+              <label class="visually-hidden" for="Mena">Mena</label>
+              <select class="form-select" id="Mena">
+                <option selected>Choose...</option>
+                {% for mena in meny %}
+                <option value="{{mena[0]}}">{{mena[1]}}</option>
+                {% endfor %}
+              </select>
             </div>
-          </div>
-        </td>
-        <td>
-          <div class="col-auto">
-            <div class="form-check">
-              <input type="text" id="Kurz" placeholder="0,00">            
+          </td>
+          <td>
+            <div class="col-auto">
+              <label class="visually-hidden" for="NakupPredaj">Nákup/Preda</label>
+              <select class="form-select" id="NakupPredaj">
+                <option selected>Choose...</option>
+                <option value="0">Nákup</option>
+                <option value="1">Predaj</option>
+              </select>
             </div>
-          </div>
-        </td>
-        <td>
-          <div class="col-auto">
-            <div class="form-check">
-              <input type="text" id="Poznamka" placeholder="0,00">            
+          </td>
+          <td>
+            <div class="col-auto">
+              <div class="form-check">
+                <input type="text" id="KryptoKolko" placeholder="0,00">
+              </div>
             </div>
-          </div>
-        </td>
-        <td>
-          <div class="col-auto">
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
-        </td>
+          </td>
+          <td>
+            <div class="col-auto">
+              <div class="form-check">
+                <input type="text" id="FiatKolko" placeholder="0,00">
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="col-auto">
+              <div class="form-check">
+                <input type="text" id="Kurz" placeholder="0,00">
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="col-auto">
+              <div class="form-check">
+                <input type="text" id="Poznamka" placeholder="0,00">
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </td>
         </form>
       </tr>
     </tbody>

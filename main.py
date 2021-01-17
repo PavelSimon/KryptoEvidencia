@@ -1,6 +1,7 @@
 from devtools import debug  # výpis premenný do promptu
 from config import PORT, HOST
 from fastapi import FastAPI, Request
+from typing import Optional
 # from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -31,20 +32,42 @@ async def root(request: Request):
     """
     Ukáže merania
     """
+    krypto = fun.citaj_evidencia(db)
+    debug(krypto)
     localtime = time.asctime(time.localtime(time.time()))
     # debug(meranie)
     print("/; Čas:", localtime)
-    return templates.TemplateResponse("home.html", {"request": request, "time": localtime})
+    return templates.TemplateResponse("home.html", {"request": request, "time": localtime, "krypto": krypto})
 
 
 @app.get("/zaznam")
 async def zaznam(request: Request):
     """
+    zobrazí zápis nového zázanamu do DB
+    """
+    meny = fun.citaj_pouzite_meny(db)
+    localtime = time.asctime(time.localtime(time.time()))
+    print("/zaznam; Čas:", localtime)
+    return templates.TemplateResponse("zaznam.html", {"request": request, "time": localtime, "meny": meny})
+
+
+@app.get("/zaznam/{param}")
+async def zaznam(request: Request, param: str, q: Optional[str] = None):
+    """
     zapíše nové zázanamy do DB
     """
+    parametre = {"param": param}
+    debug(q)
+    if q:
+        debug(q)
+        parametre.update({"q": q})
+    debug(parametre)
+    query_str = request['query_string']
+    debug(query_str)
+    meny = fun.citaj_pouzite_meny(db)
     localtime = time.asctime(time.localtime(time.time()))
-    print("/; Čas:", localtime)
-    return templates.TemplateResponse("zaznam.html", {"request": request, "time": localtime})
+    print("/zaznam/{param}; Čas:", localtime)
+    return templates.TemplateResponse("zaznam.html", {"request": request, "time": localtime, "meny": meny})
 
 
 @app.get("/graf")
@@ -54,7 +77,7 @@ async def graf(request: Request):
     """
     localtime = time.asctime(time.localtime(time.time()))
     data_z_db = fun.citanie_z_db(db)
-    print("Graf; Čas:", localtime)
+    print("/Graf; Čas:", localtime)
     return templates.TemplateResponse("graf.html", {"request": request, "data_z_db": data_z_db, "time": localtime})
 
 
