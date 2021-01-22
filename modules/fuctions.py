@@ -1,4 +1,19 @@
 import sqlite3
+from devtools import debug
+from pydantic import BaseModel
+
+
+class KryptoData(BaseModel):
+    datum: str
+    mena: int
+    smer: str
+    kolko: float
+    zaKolko: float
+    poznamka: str
+
+
+class KryptoOutput(KryptoData):
+    pass
 
 
 def init_db():
@@ -70,3 +85,15 @@ def citaj_evidencia(db):
         print("An error occurred:", e.args[0])
     # print(vystup)
     return vystup
+
+
+def zapisKryptoDoDb(krypto: KryptoData):
+    # debug(krypto)
+    datum = krypto.datum
+    print(datum)
+
+    output = KryptoOutput(**krypto.dict())
+    output.kolko = 0
+    output.zaKolko = 0
+    output.poznamka = "zapisané"
+    return output

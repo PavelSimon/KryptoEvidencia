@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uvicorn
 import time
-import requests
+#import requests
 import modules.netfunctions as netf
 import modules.fuctions as fun
 
@@ -49,6 +49,15 @@ async def zaznam(request: Request):
     localtime = time.asctime(time.localtime(time.time()))
     print("/zaznam; Čas:", localtime)
     return templates.TemplateResponse("zaznam.html", {"request": request, "time": localtime, "meny": meny})
+
+
+@app.post("/zaznam", response_model=fun.KryptoOutput)
+async def zaznamPost(krypto: fun.KryptoData):
+    """
+    zobrazí zápis nového zázanamu do DB
+    """
+    krypto = fun.zapisKryptoDoDb(krypto)
+    return krypto
 
 
 @app.get("/zaznam/{param}")
