@@ -4,4 +4,4 @@ uvicorn
 jinja2
 aiofiles
 devtools[pygments]
-
+python-multipart

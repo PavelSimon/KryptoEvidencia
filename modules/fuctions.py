@@ -6,7 +6,7 @@ from pydantic import BaseModel
 class KryptoData(BaseModel):
     datum: str
     mena: int
-    smer: str
+    smer: int
     kolko: float
     zaKolko: float
     poznamka: str
@@ -38,15 +38,21 @@ def init_db():
     return db
 
 
+db = init_db()
+
+
 def zapis_do_db(db, value):
     cursor = db.cursor()
-    """sql = "INSERT INTO meranie VALUES (?,'poznámka', datetime('now', 'localtime'))"
+    debug(value.datum)
+    sql = "INSERT INTO evidencia VALUES (?,?,?, '1' ,?,?,?)"
+    print(sql)
     try:
-        cursor.execute(sql, (value0.value))
+        cursor.execute(sql, (value.smer, value.kolko, value.zaKolko,
+                             value.mena, value.poznamka, value.datum))
         db.commit()
     except sqlite3.Error as e:
         print("Error:", e.args[0])
-    return db.total_changes"""
+    return db.total_changes
 
 
 def citanie_z_db(db):
@@ -87,13 +93,9 @@ def citaj_evidencia(db):
     return vystup
 
 
-def zapisKryptoDoDb(krypto: KryptoData):
-    # debug(krypto)
+def zapisKryptoDoDb(krypto):
+    debug(krypto)
     datum = krypto.datum
     print(datum)
-
-    output = KryptoOutput(**krypto.dict())
-    output.kolko = 0
-    output.zaKolko = 0
-    output.poznamka = "zapisané"
-    return output
+    zapis_do_db(db, krypto)
+    return krypto

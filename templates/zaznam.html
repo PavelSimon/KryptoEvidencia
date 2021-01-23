@@ -23,13 +23,13 @@
           <td>
             <div class="col-auto">
               <label class="visually-hidden" for="autoSizingInput">Dátum</label>
-              <input type="datetime-local" id="datetime-local">
+              <input type="datetime-local" id="datetime-local" name="datum" value="{{result['datum']}}">
             </div>
           </td>
           <td>
             <div class="col-auto">
               <label class="visually-hidden" for="Mena">Mena</label>
-              <select class="form-select" id="Mena">
+              <select class="form-select" id="Mena" name="mena">
                 <option selected>Choose...</option>
                 {% for mena in meny %}
                 <option value="{{mena[0]}}">{{mena[1]}}</option>
@@ -40,38 +40,38 @@
           <td>
             <div class="col-auto">
               <label class="visually-hidden" for="NakupPredaj">Nákup/Preda</label>
-              <select class="form-select" id="NakupPredaj">
+              <select class="form-select" id="NakupPredaj" name=smer>
                 <option selected>Choose...</option>
-                <option value="0">Nákup</option>
-                <option value="1">Predaj</option>
+                <option value="IN">Nákup</option>
+                <option value="OUT">Predaj</option>
               </select>
             </div>
           </td>
           <td>
             <div class="col-auto">
               <div class="form-check">
-                <input type="text" id="KryptoKolko" placeholder="0,00">
+                <input type="text" id="KryptoKolko" placeholder="0.00" name="kolko" value="{{result['kolko']}}">
               </div>
             </div>
           </td>
           <td>
             <div class="col-auto">
               <div class="form-check">
-                <input type="text" id="FiatKolko" placeholder="0,00">
+                <input type="text" id="FiatKolko" placeholder="0.00" name="zaKolko"  value="{{result['zaKolko']}}"> 
               </div>
             </div>
           </td>
           <td>
             <div class="col-auto">
               <div class="form-check">
-                <input type="text" id="Kurz" placeholder="0,00">
+                <input type="text" id="Kurz" placeholder="0,00" name="kurz">
               </div>
             </div>
           </td>
           <td>
             <div class="col-auto">
               <div class="form-check">
-                <input type="text" id="Poznamka" placeholder="0,00">
+                <input type="text" id="Poznamka" placeholder="poznámka" name="poznamka"  value="{{result['poznamka']}}">
               </div>
             </div>
           </td>
@@ -84,6 +84,7 @@
       </tr>
     </tbody>
   </table>
+  <p>Result: {{ result['datum'] }}; {{ result['mena'] }};  {{result['smer']}};  {{result['kolko']}};  {{result['zaKolko']}};  {{result['poznamka']}}</p>
 </div>
 
 {% endblock %}
