@@ -64,6 +64,7 @@ def citanie_z_db(db):
         vystup = cursor.fetchall()
     except sqlite3.Error as e:
         print("An error occurred:", e.args[0])
+    debug(vystup)
     return vystup
 
 
@@ -84,12 +85,13 @@ def citaj_evidencia(db):
     cursor = db.cursor()
     vystup = ""
     try:
-        sql = "select smer, kolko, za_kolko, uid, mena.skratka, cas_zmeny, poznamka from evidencia inner join mena on evidencia.mena_id = mena.rowid"
+        # sum(case when smer like 'IN' then +kolko else -kolko end)
+        sql = "select smer, kolko, za_kolko, uid, mena.skratka, cas_zmeny, poznamka, (za_kolko / kolko), balance  from evidencia inner join mena on evidencia.mena_id = mena.rowid"
         cursor.execute(sql)
         vystup = cursor.fetchall()
     except sqlite3.Error as e:
         print("An error occurred:", e.args[0])
-    # print(vystup)
+    debug(vystup)
     return vystup
 
 
