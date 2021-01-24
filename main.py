@@ -14,7 +14,6 @@ import modules.fuctions as fun
 moje_meno = netf.get_hostname()
 moje_ip = netf.get_ip()
 print('It is', moje_meno, 'My IP address:', moje_ip)
-url = "http://dealan.sk/test.php"
 
 app = FastAPI()
 
@@ -91,7 +90,7 @@ async def graf(request: Request):
     Zobrazí graf nameranej charakteristiky (zatiaľ iba text)
     """
     localtime = time.asctime(time.localtime(time.time()))
-    data_z_db = fun.citanie_z_db(fun.db)
+    data_z_db = fun.citaj_evidencia(fun.db)
     print("/Graf; Čas:", localtime)
     return templates.TemplateResponse("graf.html", {"request": request, "data_z_db": data_z_db, "time": localtime})
 
