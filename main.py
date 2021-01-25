@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uvicorn
 import time
-#import requests
+# import requests
 import modules.netfunctions as netf
 import modules.fuctions as fun
 
@@ -30,14 +30,58 @@ async def root(request: Request):
     Ukáže zoznam zaevidovaných kryptomien
     """
     krypto = fun.citaj_evidencia(fun.db)
-    # debug(krypto)
     localtime = time.asctime(time.localtime(time.time()))
-    # debug(meranie)
     print("/; Čas:", localtime)
     return templates.TemplateResponse("home.html", {"request": request, "time": localtime, "krypto": krypto})
 
 
-@app.get("/zaznam")
+@app.get("/edit/{item_id}")
+async def editZaznamGet(item_id: int, request: Request):
+    """
+    zobrazí edit okno na zmenu zázanamu v DB
+    """
+    meny = fun.citaj_pouzite_meny(fun.db)
+    localtime = time.asctime(time.localtime(time.time()))
+    print("/edit/{item_id}; Čas:", localtime)
+    # debug(item_id)
+    riadky = fun.citaj_evidencia_zaznam(fun.db, item_id)
+    # debug(riadky)
+    result: fun.KryptoData = fun.KryptoData
+    for riadok in riadky:
+        result.smer = riadok[0]
+        result.kolko = riadok[1]
+        result.zaKolko = riadok[2]
+        result.kto = 1
+        result.mena = 1
+        result.datum = riadok[5]
+        result.poznamka = riadok[6]
+        result.zostatok = riadok[8]
+        result.rowid = riadok[9]
+    return templates.TemplateResponse('edit.html', context={'request': request, "item_id": item_id, "time": localtime, 'result': result, "meny": meny})
+    # return templates.TemplateResponse('edit.html', context={'request': request, "item_id": item_id, "time": localtime, "meny": meny, 'result': result})
+
+
+@ app.post("/edit/")
+async def editZaznamPost(request: Request, datum: str = Form(...), mena: int = Form(...), smer: str = Form(...), kolko: float = Form(...), zaKolko: float = Form(...), zostatok: float = Form(...), poznamka: Optional[str] = Form(...), rowid: int = Form(...)):
+    meny = fun.citaj_pouzite_meny(fun.db)
+    localtime = time.asctime(time.localtime(time.time()))
+    print("POST:/zaznam; Čas:", localtime)
+    result: fun.KryptoData = fun.KryptoData
+    result.datum = datum
+    result.mena = mena
+    result.smer = smer
+    result.kolko = kolko
+    result.zaKolko = zaKolko
+    result.poznamka = poznamka
+    result.zostatok = zostatok
+    result.rowid = rowid
+    fun.upravKryptoVDb(result)
+    item_id = 1
+    # return templates.TemplateResponse('edit.html', context={'request': request, "time": localtime,  "meny": meny, 'result': result})
+    return templates.TemplateResponse('edit.html', context={'request': request, "item_id": item_id, "time": localtime, 'result': result, "meny": meny})
+
+
+@ app.get("/zaznam")
 async def zaznam(request: Request):
     """
     zobrazí zápis nového zázanamu do DB
@@ -49,8 +93,8 @@ async def zaznam(request: Request):
     return templates.TemplateResponse("zaznam.html", {"request": request, "time": localtime, "meny": meny, 'result': result})
 
 
-@app.post("/zaznam")
-async def zaznamPost(request: Request, datum: str = Form(...), mena: int = Form(...), smer: str = Form(...), kolko: float = Form(...), zaKolko: float = Form(...), poznamka: Optional[str] = Form(...)):
+@ app.post("/zaznam")
+async def zaznamPost(request: Request, datum: str = Form(...), mena: int = Form(...), smer: str = Form(...), kolko: float = Form(...), zaKolko: float = Form(...), zostatok: float = Form(...), poznamka: Optional[str] = Form(...)):
     meny = fun.citaj_pouzite_meny(fun.db)
     localtime = time.asctime(time.localtime(time.time()))
     print("POST:/zaznam; Čas:", localtime)
@@ -61,30 +105,12 @@ async def zaznamPost(request: Request, datum: str = Form(...), mena: int = Form(
     result.kolko = kolko
     result.zaKolko = zaKolko
     result.poznamka = poznamka
+    result.zostatok = zostatok
     fun.zapisKryptoDoDb(result)
     return templates.TemplateResponse('zaznam.html', context={'request': request, "time": localtime,  "meny": meny, 'result': result})
 
 
-@app.get("/zaznam/{param}")
-async def zaznam(request: Request, param: str, q: Optional[str] = None):
-    """
-    zapíše nové zázanamy do DB
-    """
-    parametre = {"param": param}
-    debug(q)
-    if q:
-        debug(q)
-        parametre.update({"q": q})
-    debug(parametre)
-    query_str = request['query_string']
-    debug(query_str)
-    meny = fun.citaj_pouzite_meny(fun.db)
-    localtime = time.asctime(time.localtime(time.time()))
-    print("/zaznam/{param}; Čas:", localtime)
-    return templates.TemplateResponse("zaznam.html", {"request": request, "time": localtime, "meny": meny})
-
-
-@app.get("/graf")
+@ app.get("/graf")
 async def graf(request: Request):
     """
     Zobrazí graf nameranej charakteristiky (zatiaľ iba text)

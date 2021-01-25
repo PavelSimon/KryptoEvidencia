@@ -9,25 +9,33 @@
         <th scope="col">Dátum</a></th>
         <th scope="col">Mena</a></th>
         <th scope="col">Nákup/Predaj</a></th>
-        <th scope="col">Krypto</a></th>
-        <th scope="col">Zostatok</a></th>
-        <th scope="col">Fiat</a></th>
-        <th scope="col">Kurz</a></th>
-        <th scope="col">Poznámka</a></th>
+        <th scope="col" class="text-center">Krypto</a></th>
+        <th scope="col" class="text-center">Zostatok</a></th>
+        <th scope="col" class="text-center">Fiat</a></th>
+        <th scope="col" class="text-center">Kurz</a></th>
+        <th scope="col" class="text-start">Poznámka</a></th>
+        <th scope="col" class="text-start">Editovať</a></th>
       </tr>
     </thead>
     <tbody>
       {% for riadok in krypto %}
-      <tr>
-        <td>{{riadok[5]}}</td>
-        <td>{{riadok[4]}}</td>
-        <td>{{riadok[0]}}</td>
-        <td>{{riadok[1]}}</td>
-        <td>{{riadok[8]}}</td>
-        <td>{{riadok[2]}}</td>
-        <td>{{riadok[7]}}</td>
-        <td>{{riadok[6]}}</td>
-      </tr>
+      <form action="/edit/{{riadok[9]}}" method="get" class="row gy-2 gx-3 align-items-center">
+        <tr>
+          <td>{{riadok[5]}}</td>
+          <td>{{riadok[4]}}</td>
+          <td>{{riadok[0]}}</td>
+          <td class="text-end">{{riadok[1]}}</td>
+          <td class="text-end">{{riadok[8]}}</td>
+          <td class="text-end">{{riadok[2]}}</td>
+          <td class="text-end">{{riadok[7]}}</td>
+          <td class="text-start">{{riadok[6]}}</td>
+          <td>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-primary" id="dbedit{{riadok[9]}}">Edituj</button>
+            </div>
+          </td>
+        </tr>
+      </form>
       {% endfor %}
     </tbody>
   </table>
