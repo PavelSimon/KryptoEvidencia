@@ -14,28 +14,36 @@
         <th scope="col" class="text-center">Fiat</a></th>
         <th scope="col" class="text-center">Kurz</a></th>
         <th scope="col" class="text-start">Poznámka</a></th>
+        <th scope="col" class="text-start">Podrobnosti</a></th>
         <th scope="col" class="text-start">Editovať</a></th>
       </tr>
     </thead>
     <tbody>
       {% for riadok in krypto %}
-      <form action="/edit/{{riadok[9]}}" method="get" class="row gy-2 gx-3 align-items-center">
-        <tr>
-          <td>{{riadok[5]}}</td>
-          <td>{{riadok[4]}}</td>
-          <td>{{riadok[0]}}</td>
-          <td class="text-end">{{riadok[1]}}</td>
-          <td class="text-end">{{riadok[8]}}</td>
-          <td class="text-end">{{riadok[2]}}</td>
-          <td class="text-end">{{riadok[7]}}</td>
-          <td class="text-start">{{riadok[6]}}</td>
-          <td>
+      <tr>
+        <td>{{riadok[5]}}</td>
+        <td>{{riadok[4]}}</td>
+        <td>{{riadok[0]}}</td>
+        <td class="text-end">{{riadok[1]}}</td>
+        <td class="text-end">{{riadok[8]}}</td>
+        <td class="text-end">{{riadok[2]}}</td>
+        <td class="text-end">{{riadok[7]}}</td>
+        <td class="text-start">{{riadok[6]}}</td>
+        <td>
+          <form action="/detail/{{riadok[9]}}" method="get" class="row gy-2 gx-3 align-items-center">
+            <div class="col-auto">
+              <button type="submit" class="btn btn-primary" id="podklady{{riadok[9]}}">Podklady</button>
+            </div>
+          </form>
+        </td>
+        <td>
+          <form action="/edit/{{riadok[9]}}" method="get" class="row gy-2 gx-3 align-items-center">
             <div class="col-auto">
               <button type="submit" class="btn btn-primary" id="dbedit{{riadok[9]}}">Edituj</button>
             </div>
-          </td>
-        </tr>
-      </form>
+          </form>
+        </td>
+      </tr>
       {% endfor %}
     </tbody>
   </table>

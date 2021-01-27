@@ -42,7 +42,7 @@ async def editZaznamGet(item_id: int, request: Request):
     """
     meny = fun.citaj_pouzite_meny(fun.db)
     localtime = time.asctime(time.localtime(time.time()))
-    print("/edit/{item_id}; Čas:", localtime)
+    print("/edit/", item_id, "; Čas:", localtime)
     # debug(item_id)
     riadky = fun.citaj_evidencia_zaznam(fun.db, item_id)
     # debug(riadky)
@@ -65,7 +65,7 @@ async def editZaznamGet(item_id: int, request: Request):
 async def editZaznamPost(request: Request, datum: str = Form(...), mena: int = Form(...), smer: str = Form(...), kolko: float = Form(...), zaKolko: float = Form(...), zostatok: float = Form(...), poznamka: Optional[str] = Form(...), rowid: int = Form(...)):
     meny = fun.citaj_pouzite_meny(fun.db)
     localtime = time.asctime(time.localtime(time.time()))
-    print("POST:/zaznam; Čas:", localtime)
+    print("POST:/edit; Čas:", localtime)
     result: fun.KryptoData = fun.KryptoData
     result.datum = datum
     result.mena = mena
@@ -78,6 +78,51 @@ async def editZaznamPost(request: Request, datum: str = Form(...), mena: int = F
     fun.upravKryptoVDb(result)
     item_id = 1
     # return templates.TemplateResponse('edit.html', context={'request': request, "time": localtime,  "meny": meny, 'result': result})
+    return templates.TemplateResponse('edit.html', context={'request': request, "item_id": item_id, "time": localtime, 'result': result, "meny": meny})
+
+
+@app.get("/detail/{item_id}")
+async def detailZaznamGet(item_id: int, request: Request):
+    """
+    zobrazí edit okno na zmenu zázanamu v DB
+    """
+    meny = fun.citaj_pouzite_meny(fun.db)
+    localtime = time.asctime(time.localtime(time.time()))
+    print("/detail/", item_id, "; Čas:", localtime)
+    # debug(item_id)
+    riadky = fun.citaj_evidencia_zaznam(fun.db, item_id)
+    # debug(riadky)
+    result: fun.KryptoData = fun.KryptoData
+    for riadok in riadky:
+        result.smer = riadok[0]
+        result.kolko = riadok[1]
+        result.zaKolko = riadok[2]
+        result.kto = 1
+        result.mena = 1
+        result.datum = riadok[5]
+        result.poznamka = riadok[6]
+        result.zostatok = riadok[8]
+        result.rowid = riadok[9]
+    return templates.TemplateResponse('detail.html', context={'request': request, "item_id": item_id, "time": localtime, 'result': result, "meny": meny})
+    # return templates.TemplateResponse('edit.html', context={'request': request, "item_id": item_id, "time": localtime, "meny": meny, 'result': result})
+
+
+@ app.post("/detail/")
+async def detailZaznamPost(request: Request, datum: str = Form(...), mena: int = Form(...), smer: str = Form(...), kolko: float = Form(...), zaKolko: float = Form(...), zostatok: float = Form(...), poznamka: Optional[str] = Form(...), rowid: int = Form(...)):
+    meny = fun.citaj_pouzite_meny(fun.db)
+    localtime = time.asctime(time.localtime(time.time()))
+    print("POST:/detail; Čas:", localtime)
+    result: fun.KryptoData = fun.KryptoData
+    result.datum = datum
+    result.mena = mena
+    result.smer = smer
+    result.kolko = kolko
+    result.zaKolko = zaKolko
+    result.poznamka = poznamka
+    result.zostatok = zostatok
+    result.rowid = rowid
+    # fun.upravKryptoVDb(result)
+    item_id = 1
     return templates.TemplateResponse('edit.html', context={'request': request, "item_id": item_id, "time": localtime, 'result': result, "meny": meny})
 
 
