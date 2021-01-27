@@ -7,4 +7,4 @@ Pohyby jednotlivých kryptomien sú zapísané do sqlite databaze, ktorá je aut
 Každá transakcia umožní uloženie podkladových súborov k evidencii. Napr. pdf faktúry, screenshot z burzy a pod.
 
 Výroz aplikácie - pohyb je samozrejme fiktívny:
-![alt text](KryptoEvidencia.png)
+![alt text](https://github.com/PavelSimon/KryptoEvidencia/blob/master/KryptoEvidecia.png)
